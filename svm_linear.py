@@ -1,4 +1,4 @@
-from aidemos import svm
+from mldemos import svm
 from sklearn.datasets import make_blobs
 from time import sleep
 
