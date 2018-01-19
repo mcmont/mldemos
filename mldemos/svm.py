@@ -2,8 +2,10 @@ import numpy as np
 from matplotlib import style
 import matplotlib.pyplot as plt
 from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
 
-class svm:
+
+class Svm:
     """
     Generate an interactive plot of the SVM training data, decision boundary and margins.
     Clicking in the plot displays the classification of the point.
@@ -30,9 +32,17 @@ class svm:
         # Get the name of the kernel initialisation function, and execute it.
         kernel_function = getattr(self, 'init_kernel_'+kernel_name)
         self.classifier = kernel_function(C)
-        self.classifier_fit = self.get_fit(X, y)
 
-        return self.draw_svm(X, y, kernel_name, C)
+        # Split the data into training and test sets. 
+        # The training data will be used to fit the model, 
+        # the test data will be used to score it.
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=True)
+
+        # Train the model
+        self.classifier_fit = self.get_fit(X_train, y_train)
+        # Classify the test data
+        print('%s percent of test data points were correctly classfified.' % (self.get_score(X_test, y_test)*100))
+        self.draw_svm(X_train, y_train, kernel_name, C)
 
     def init_kernel_linear(self, C):
         """ Get a linear SVM kernel with regularisation parameter C. """
@@ -51,7 +61,7 @@ class svm:
         return self.classifier.fit(X, y)
 
     def get_score(self, X, y):
-        """ Return the fit score """
+        """ Return the model fit score based on the test data"""
         return self.classifier.score(X, y)
 
     def draw_svm(self, X, y, kernel_name, C):
@@ -61,7 +71,6 @@ class svm:
         # Apply Infinity Works styling
         style.use('iw')
         plt.title('Support Vector Machine with %s kernel, C=%.2f' % (kernel_name, C))
-        print('%s percent of training data points were correctly classfified.' % (self.get_score(X, y)*100))
 
         # Plot the training data points
         plt.scatter(X[:,0], X[:,1], c=y, cmap='autumn')
