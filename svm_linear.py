@@ -8,9 +8,9 @@ from time import sleep
 training_data, centre_ids = make_blobs(
     n_samples=200,
     centers=2,
-    random_state=7,
+    random_state=78,
     cluster_std=2
 )
 
 # Create linear SVM and display plot
-plot = svm.svm(training_data, centre_ids, 'linear', 1.0)
+plot = svm.Svm(training_data, centre_ids, 'linear', 1.0)

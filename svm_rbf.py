@@ -13,4 +13,4 @@ X, y = make_gaussian_quantiles(
 )
 
 # Create radial basis function SVM and display plot
-svm.svm(X, y, 'rbf', 100)
+svm.Svm(X, y, 'rbf', 100)
