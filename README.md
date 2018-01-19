@@ -9,11 +9,11 @@ Twitter: @monty_mcmont
 These demos will feature in an upcoming beginner-level talk about Artificial Intelligence and Machine Learning.
 
 ## Installation
-You will need python3, scikit-learn and pyplot to run these demos. If you would rather not install these on your local machine a Dockerfile is included which can be built with ```docker-compose build```. Obvs to do that you need to install Docker first. See [https://docs.docker.com/engine/installation/](https://docs.docker.com/engine/installation/) if you need help doing this.
+You will need python3, scikit-learn and pyplot to run these demos.
 
 To style the plots in the intended manner copy matplotlib-stylelib/iw.mplstyle to your matplotlib style library, e.g.:
 
-```mkdir -p ~/.matplotlib/stylelib/ && cp matplotlib-stylelib/iw.mplstyle ~/.matplotlib/stylelib/```
+```mkdir -p ~/.matplotlib-conf/stylelib/ && cp matplotlib-stylelib/iw.mplstyle ~/.matplotlib/stylelib/```
 
 Unfortunately it is tricky to Dockerise these demos (believe me, I tried...) because they rely on access to the host device's X11 display. This is actually relatively strighforward on Linux host systems, but it is problematic on OS X and relies on a specific version of Xquartz being installed. To avoid user frustration I decided not to add a Dockerfile. Sorry.
 
