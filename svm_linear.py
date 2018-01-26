@@ -12,5 +12,8 @@ training_data, centre_ids = make_blobs(
     cluster_std=2
 )
 
+class_labels = ['Class 1', 'Class 2']
+axis_labels = ['X dimension', 'Y dimension']
+
 # Create linear SVM and display plot
-plot = svm.BinarySvm(training_data, centre_ids, 'linear', 1.0)
+plot = svm.BinarySvm(training_data, centre_ids, 'linear', 1.0, class_labels, axis_labels)
