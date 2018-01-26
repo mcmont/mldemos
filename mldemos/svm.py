@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 
-
-class Svm:
+class BinarySvm:
     """
     Generate an interactive plot of the SVM training data, decision boundary and margins.
     Clicking in the plot displays the classification of the point.
@@ -14,13 +13,25 @@ class Svm:
     light_blue = '#77eeff'
     classifier = None
     classifier_fit = None
+    class_labels = None
+    axis_labels = None
 
-    def __init__(self, X, y, kernel_name, C):
+    def __init__(self, X, y, kernel_name, C, class_labels, axis_labels):
 
         available_kernels = ['linear', 'rbf']
         if kernel_name not in available_kernels:
             print('Invalid kernel type, choose one of %s' % (available_kernels))
             return
+
+        if len(class_labels) != 2:
+            print('Please supply 2 class labels')
+            return
+        self.class_labels = class_labels
+
+        if len(axis_labels) != 2:
+            print('Please supply 2 axis labels')
+            return
+        self.axis_labels = axis_labels
 
         # A large regularisation value C (~1000) tells our model that we do not have that much faith
         # in our data's distribution, so it should only consider points close to line of separation.
@@ -70,13 +81,13 @@ class Svm:
         plt.rcParams["figure.figsize"] = (20,10.5)
         # Apply Infinity Works styling
         style.use('iw')
-        plt.title('Support Vector Machine with %s kernel, C=%.2f' % (kernel_name, C))
+        plt.title(self.class_labels[0]+' or '+self.class_labels[1]+'?')
 
         # Plot the training data points
         plt.scatter(X[:,0], X[:,1], c=y, cmap='autumn')
         axes = plt.gca()
-        axes.set_xlabel('Data dimension A')
-        axes.set_ylabel('Data dimension B')
+        axes.set_xlabel(self.axis_labels[0])
+        axes.set_ylabel(self.axis_labels[1])
 
         # Calculate the decision boundary and the margins.
         xlim = axes.get_xlim()
@@ -107,10 +118,10 @@ class Svm:
         """ Display a classified data point when the user clicks within the axes. """
         # Classify the new point
         class_index, = self.classifier.predict([(event.xdata, event.ydata)])
-        print('Point at %.2f, %.2f belongs to class %s' % (event.xdata, event.ydata, class_index))
+        print('Point at %.2f, %.2f belongs to class %s' % (event.xdata, event.ydata, self.class_labels[class_index]))
         # Plot the new point
         axes = plt.gca()
         axes.scatter(event.xdata, event.ydata, c=self.light_blue)
-        plt.text(event.xdata-0.07, event.ydata+0.15, class_index)
+        plt.text(event.xdata-0.07, event.ydata+0.15, self.class_labels[class_index])
         # Redraw the plot
         plt.draw()
