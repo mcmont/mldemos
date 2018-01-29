@@ -20,15 +20,11 @@ class accel_server(BaseHTTPRequestHandler):
 
     def do_POST(self):
         """ Receive data from the client device's accelerometer. """
-        content_length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(content_length)
+        post_data = self.rfile.read(int(self.headers['Content-Length']))
         new_values = numpy.fromstring(post_data, sep=',')
-        print(new_values)
+        # print(new_values)
         global movement_data
         movement_data = numpy.vstack((movement_data, new_values))
-        print(movement_data.shape[0])
-        if movement_data.shape[0] > 5:
-            movement_data = movement_data[-5:, :]
 
 
 def run(server_class=HTTPServer, handler_class=accel_server, port=8000):
@@ -42,8 +38,22 @@ def run(server_class=HTTPServer, handler_class=accel_server, port=8000):
     while (1):
         httpd.handle_request()
         print(movement_data)
-        update_plot()
+        if movement_data.shape[0] > 5:
+            movement_data = movement_data[-5:, :]
 
+        x_data = movement_data[:, 0]
+        x_mean = numpy.mean(x_data)
+        x_stddev = numpy.std(x_data)
+
+        y_data = movement_data[:, 1]
+        y_mean = numpy.mean(y_data)
+        y_stddev = numpy.std(y_data)
+
+        z_data = movement_data[:, 2]
+        z_mean = numpy.mean(z_data)
+        z_stddev = numpy.std(z_data)
+
+        update_plot()
 
 def init_plot():
     # Set the plot window size
@@ -51,11 +61,10 @@ def init_plot():
     plt.show(False)
 
 def update_plot():
-    # print(movement_data)
-    x = range(5)
-    # plt.plot(x, [y for y in movement_data[:, 0]])
-    # plt.plot(x, [y for y in movement_data[:, 1]])
-    # plt.plot(x, [y for y in movement_data[:, 2]])
+    x = range(movement_data.shape[0])
+    plt.plot(x, [y for y in movement_data[:, 0]])
+    plt.plot(x, [y for y in movement_data[:, 1]])
+    plt.plot(x, [y for y in movement_data[:, 2]])
     plt.show(False)
 
 if __name__ == "__main__":
