@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	<title>Accelerometer Data</title>
+	<meta name="viewport" content="width=device-width,user-scalable=yes" />
+	<style>
+	body {
+		font-family: avenir, helvetica, arial, sans serif;
+		background-color: #333F48;
+		color: #ffffff;
+	}
+	h1 {
+		color: #e35205;
+	}
+	span {
+		color: #00b2a9;
+	}
+	</style>
+	</head>
+
+	<body>
+		<div id="content">
+			<h1>Accelerometer data</h1>
+			<table>
+				<tr><td>Rotation inc gravity (x):</td><td><span id="accelX"></span></td><td>g</td></tr>
+				<tr><td>Pitch inc gravity (y):</td><td><span id="accelY"></span></td><td>g</td></tr>
+				<tr><td>acceleration inc gravity z:</td><td><span id="accelZ"></span></td><td>g</td></tr>
+			</table>
+		</div>
+		<script>
+		if (window.DeviceMotionEvent != undefined) {
+			window.ondevicemotion = function(e) {
+
+				var accelX = e.accelerationIncludingGravity.x.toFixed(4);
+				var accelY = e.accelerationIncludingGravity.y.toFixed(4);
+				var accelZ = e.accelerationIncludingGravity.z.toFixed(4);
+
+				document.getElementById("accelX").innerHTML = accelX;
+				document.getElementById("accelY").innerHTML = accelY;
+				document.getElementById("accelZ").innerHTML = accelZ;
+
+				var http = new XMLHttpRequest();
+				var url = "get_data.php";
+				var params = accelX+','+accelY+','+accelZ;
+				http.open("POST", url, true);
+				
+				//Send the proper header information along with the request
+				http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				http.send(params);
+			}
+		}
+		</script>
+	</body>
+</html>
