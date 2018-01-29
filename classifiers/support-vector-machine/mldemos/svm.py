@@ -78,13 +78,13 @@ class BinarySvm:
     def draw_svm(self, X, y, kernel_name, C):
         """ Draw the plot using mPyPlot. """
         # Set the plot window size
-        plt.rcParams["figure.figsize"] = (20,10.5)
+        plt.rcParams["figure.figsize"] = (20, 10.5)
         # Apply Infinity Works styling
         style.use('iw')
         plt.title(self.class_labels[0]+' or '+self.class_labels[1]+'?')
 
         # Plot the training data points
-        plt.scatter(X[:,0], X[:,1], c=y, cmap='autumn')
+        plt.scatter(X[:, 0], X[:, 1], c=y, cmap='autumn')
         axes = plt.gca()
         axes.set_xlabel(self.axis_labels[0])
         axes.set_ylabel(self.axis_labels[1])
