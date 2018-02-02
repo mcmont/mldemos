@@ -1,14 +1,14 @@
 # Motion classification demo
 **Dr. Chris Empson, Infinity Works Ltd.**
 
-chris.empson@infinityworks.com
+[chris.empson@infinityworks.com](mailto:chris.empson@infinityworks.com)
 
 Twitter: [@monty_mcmont](https://twitter.com/monty_mcmont)
 
 ## Overview
 This demo demonstrates how to collect data and classify it in real time. 
 
-The demo starts an HTTP server which serves an HTML file. The user connects to the server via a mobile device that contains accelerometers. The embedded Javascript code reads the device's accelerometers and read the magnitude of the motion in the x, y and z axes. Data is held in an array until it contains 25 data samples for each axis. The device then calculates the mean and standard deviation of the data, and sends it to the server via an HTTP POST request.
+The demo starts an HTTP server which serves an HTML file. The user connects to the server via a mobile device that contains accelerometers. The embedded Javascript code acquires data from the device's accelerometers to find the magnitude of the motion in the x, y and z axes. Data is held in an array until it contains 25 data samples for each axis. The device then calculates the mean and standard deviation of the data, and sends it to the server via an HTTP POST request.
 
 The included training data "teaches" the classifier using example data that is received during various activities; sitting, standing, holding the device in the hand, jogging on the spot and shaking the device. Please note that this data may have different characteristics for different people. For example I tend to keep my phone in my right trouser pocket, so my phone tends to be in a certain orientation when I sit down. If you keep yours in your left pocket the orientation may differ, and you may see wrong results. (This is only a demo, deal with it... or fork the code and improve it!)
 
