@@ -1,54 +1,116 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-	<title>Accelerometer Data</title>
-	<meta name="viewport" content="width=device-width,user-scalable=yes" />
-	<style>
-	body {
-		font-family: avenir, helvetica, arial, sans serif;
-		background-color: #333F48;
-		color: #ffffff;
-	}
-	h1 {
-		color: #e35205;
-	}
-	span {
-		color: #00b2a9;
-	}
-	</style>
-	</head>
+<!--
+    This client HTML file is based on Alberto Sarullo's
+    JS accelerometer API demo.
+    http://www.albertosarullo.com/demos/accelerometer/
+-->
+<html>
+    <head>
+        <title>Accelerometer data</title>
+        <meta name="viewport" content="width=device-width,user-scalable=yes" />
+        <style>
+            body {
+                font-family: avenir, helvetica, arial, sans serif;
+                background-color: #333F48;
+                color: #ffffff;
+            }
+            h1 {
+                color: #e35205;
+                font-size: 3em;
+            }
+            span {
+                color: #00b2a9;
+            }
+            td {
+                font-size: 4em;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="content">
+            <h1>Accelerometer data</h1>
+            <table>
+                <tr><td>X: </td><td><span id="accelX"></span></td><td>g</td></tr>
+                <tr><td>Y: </td><td><span id="accelY"></span></td><td>g</td></tr>
+                <tr><td>Z: </td><td><span id="accelZ"></span></td><td>g</td></tr>
+            </table>
+        </div>
+        <script>
+            /* Data window size. Recalculate the stats on the accelerometer
+             * data stats when the data array has accumulated this many data points. */
+            var dataWindowSize = 25;
 
-	<body>
-		<div id="content">
-			<h1>Accelerometer data</h1>
-			<table>
-				<tr><td>Rotation inc gravity (x):</td><td><span id="accelX"></span></td><td>g</td></tr>
-				<tr><td>Pitch inc gravity (y):</td><td><span id="accelY"></span></td><td>g</td></tr>
-				<tr><td>acceleration inc gravity z:</td><td><span id="accelZ"></span></td><td>g</td></tr>
-			</table>
-		</div>
-		<script>
-		if (window.DeviceMotionEvent != undefined) {
-			window.ondevicemotion = function(e) {
+            var xValues = [];
+            var yValues = [];
+            var zValues = [];
 
-				var accelX = e.accelerationIncludingGravity.x.toFixed(4);
-				var accelY = e.accelerationIncludingGravity.y.toFixed(4);
-				var accelZ = e.accelerationIncludingGravity.z.toFixed(4);
+            if (window.DeviceMotionEvent != undefined) {
+                window.ondevicemotion = function(e) {
+                    /* Read x, y, z data from the device's accelerometers. */
+                    var accelX = e.accelerationIncludingGravity.x;
+                    var accelY = e.accelerationIncludingGravity.y;
+                    var accelZ = e.accelerationIncludingGravity.z;
 
-				document.getElementById("accelX").innerHTML = accelX;
-				document.getElementById("accelY").innerHTML = accelY;
-				document.getElementById("accelZ").innerHTML = accelZ;
+                    document.getElementById("accelX").innerHTML = accelX.toFixed(4);
+                    document.getElementById("accelY").innerHTML = accelY.toFixed(4);
+                    document.getElementById("accelZ").innerHTML = accelZ.toFixed(4);
 
-				var http = new XMLHttpRequest();
-				var url = "get_data.php";
-				var params = accelX+','+accelY+','+accelZ;
-				http.open("POST", url, true);
-				
-				//Send the proper header information along with the request
-				http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-				http.send(params);
-			}
-		}
-		</script>
-	</body>
+                    xValues.push(accelX);
+                    yValues.push(accelY);
+                    zValues.push(accelZ);
+
+                    if (dataWindowSize == xValues.length) {
+                        var xMean = mean(xValues);
+                        var xStdDev = standardDeviation(xValues);
+                        xValues = [];
+
+                        var yMean = mean(yValues);
+                        var yStdDev = standardDeviation(yValues);
+                        yValues = [];
+                        
+                        var zMean = mean(zValues);
+                        var zStdDev = standardDeviation(zValues);
+                        zValues = [];
+
+                        var http = new XMLHttpRequest();
+                        var url = "get_data.php";
+                        var params = xMean+','+xStdDev+','+yMean+','+yStdDev+','+zMean+','+zStdDev;
+                        http.open("POST", url, true);
+                        
+                        /* Send the proper header information along with the request.
+                         * Don't bother waiting for a response, just keep flinging data at the server! */
+                        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                        http.send(params);
+                    }
+                }
+            }
+
+            /**
+             * Calculate the standard deviation of an array of numbers. 
+             */
+            function standardDeviation(values){
+                var avg = mean(values);
+
+                var squareDiffs = values.map(function(value){
+                    var diff = value - avg;
+                    var sqrDiff = diff * diff;
+                    return sqrDiff;
+                });
+                
+                var avgSquareDiff = mean(squareDiffs);
+                var stdDev = Math.sqrt(avgSquareDiff);
+                return stdDev;
+            }
+            
+            /**
+             * Calculate the mean of an array of numbers. 
+             */
+            function mean(data){
+                var sum = data.reduce(function(sum, value) {
+                  return sum + value;
+                }, 0);
+                return sum / data.length;
+            }
+        </script>
+    </body>
 </html>
