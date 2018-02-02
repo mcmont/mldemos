@@ -4,10 +4,11 @@ import matplotlib.pyplot as plt
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 
+
 class BinarySvm:
     """
-    Generate an interactive plot of the SVM training data, decision boundary and margins.
-    Clicking in the plot displays the classification of the point.
+    Generate an interactive plot of the SVM training data, decision boundary
+    and margins. Clicking in the plot displays the classification of the point.
     """
     aqua = '#00b2a9'
     light_blue = '#77eeff'
@@ -33,10 +34,12 @@ class BinarySvm:
             return
         self.axis_labels = axis_labels
 
-        # A large regularisation value C (~1000) tells our model that we do not have that much faith
-        # in our data's distribution, so it should only consider points close to line of separation.
-        # A small value of C (0.001) includes more/all the observations, allowing the margins to be 
-        # calculated using all the data in the area. The default is 1.0
+        # A large regularisation value C (~1000) tells our model that we do
+        # not have that much faith in our data's distribution, so it should
+        # only consider points close to line of separation.
+        # A small value of C (0.001) includes more/all the observations, 
+        # allowing the margins to be calculated using all the data in the 
+        # area. The default is 1.0
         if C is None:
             C = 1.0
 
@@ -44,15 +47,15 @@ class BinarySvm:
         kernel_function = getattr(self, 'init_kernel_'+kernel_name)
         self.classifier = kernel_function(C)
 
-        # Split the data into training and test sets. 
-        # The training data will be used to fit the model, 
-        # the test data will be used to score it.
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=True)
+        # Split the data into training and test sets.
+        # The training data will be used to fit the model,
+        # the validation data will be used to score it.
+        X_train, X_validation, y_train, y_validation = train_test_split(X, y, test_size=0.3, shuffle=True)
 
         # Train the model
         self.classifier_fit = self.get_fit(X_train, y_train)
-        # Classify the test data
-        print('%s percent of test data points were correctly classfified.' % (self.get_score(X_test, y_test)*100))
+        # Classify the validation data
+        print('%s percent of validation data points were correctly classified.' % (self.get_score(X_validation, y_validation)*100))
         self.draw_svm(X_train, y_train, kernel_name, C)
 
     def init_kernel_linear(self, C):

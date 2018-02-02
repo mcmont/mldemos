@@ -1,4 +1,4 @@
-from mldemos import svm
+import svm
 from sklearn.datasets import make_blobs
 import numpy as np
 

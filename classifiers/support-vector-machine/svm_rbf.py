@@ -1,4 +1,4 @@
-from mldemos import svm
+import svm
 from sklearn.datasets import make_gaussian_quantiles
 
 # Generate training dataset containing two classes, one inside the other,
