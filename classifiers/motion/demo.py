@@ -38,6 +38,7 @@ class MotionClassifier(object):
     def create_window(self):
         """ Creates the window that displays the classifier result. """
         window = tkinter.Tk()
+        # Hide the OS window controls
         window.overrideredirect(1)
 
         # Create the dark grey background
@@ -59,7 +60,7 @@ class MotionClassifier(object):
         message = canvas.create_text(
             300, 300,
             font='Avenir 52 bold',
-            fill="#e35205",
+            fill="#E35205",
             text=label_text.get()
         )
         return window, canvas, message
