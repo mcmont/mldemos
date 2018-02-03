@@ -24,7 +24,7 @@ This demo is written in Python 3. Assuming this is already installed you will ne
 You will also need a mobile device. This demo was tested using an iPhone 6S which reports new accelerometer readings every 16.7ms.
 
 Run the HTTP server:
-```python3 server.py OPTIONAL_PORT_NUMBER```
+```python3 demo.py OPTIONAL_PORT_NUMBER```
 
 Then connect to the server at the specified port number using your mobile device. If no port number is specified the server will use port 8000.
 
