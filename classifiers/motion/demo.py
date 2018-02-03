@@ -8,7 +8,6 @@ import motionserver
 
 class MotionClassifier(object):
     """ Motion classification demo. """
-    motion_class = None
 
     def __init__(self, port=8000):
         """ Main control loop. CTRL+C stops the loop. """
