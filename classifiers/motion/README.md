@@ -12,7 +12,7 @@ The demo starts an HTTP server which serves an HTML file. The user connects to t
 
 The included training data "teaches" the classifier what the accelerometer data looks like during various activities; sitting, standing, holding the device in the hand, jogging on the spot and shaking the device. Please note that this data may have different characteristics for different people. For example I tend to keep my phone in my right trouser pocket, so my phone tends to be in a certain orientation when I sit down. If you keep yours in your left pocket the orientation may differ, and you may see wrong results. (This is only a demo, deal with it... or [fork the code](https://github.com/mcmont/mldemos/tree/master/classifiers#fork-destination-box) and improve it!)
 
-The model uses a *k*-nearest neighbours search to find the closest data points from the training set. The value of *k* is set to 5 by default. The majority classification of the 5 closest training data points is reported as the type of motion detected.
+The model uses a *k*-nearest neighbours search to find the closest data points from the training set. The value of *k* is set to 5 by default. The majority classification of the 5 closest training data points is displayed in a window.
 
 *k*-nearest neighbours is somewhat unusual in machine learning because *all* of the training data is used in the model; splitting the data into training and validation sets only reduces the accuracy of the model.
 
@@ -26,7 +26,7 @@ You will also need a mobile device. This demo was tested using an iPhone 6S whic
 Run the HTTP server:
 ```python3 demo.py OPTIONAL_PORT_NUMBER```
 
-Then connect to the server at the specified port number using your mobile device. If no port number is specified the server will use port 8000.
+Then connect to the server at the specified port number using your mobile device. If no port number is specified the server will default to port 8000. If the chosen port is not available (e.g. if it is already bound to a different process) it will increment the port number and try again, repeating until an available port is found.
 
 ## References
 
