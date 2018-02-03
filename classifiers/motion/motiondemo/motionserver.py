@@ -1,6 +1,6 @@
 """ HTTP request handler for the motion classifier demo. """
 import http.server
-import motionclassifier
+from . import motionclassifier
 
 
 class MotionServer(http.server.BaseHTTPRequestHandler):

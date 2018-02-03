@@ -2,8 +2,8 @@
 import socketserver
 import sys
 import tkinter
-import motiondata
-import motionserver
+from motiondemo import motiondata
+from motiondemo import motionserver
 
 
 class MotionClassifier(object):
@@ -28,18 +28,21 @@ class MotionClassifier(object):
                 canvas.itemconfigure(message, text=motion_data.motion_class)
                 window.update()
 
-            except KeyboardInterrupt:
-                print('\nCaught CTRL+C, exiting.')
+            except (Exception, KeyboardInterrupt):
+                print('\nCaught CTRL+C or the window was closed. Exiting.')
                 httpd.server_close()
                 print('HTTP server stopped.')
-                window.destroy()
+                try:
+                    window.destroy()
+                except Exception:
+                    pass
                 break
 
     def create_window(self):
         """ Creates the window that displays the classifier result. """
         window = tkinter.Tk()
         # Hide the OS window controls
-        window.overrideredirect(1)
+        # window.overrideredirect(1)
 
         # Create the dark grey background
         canvas = tkinter.Canvas(
