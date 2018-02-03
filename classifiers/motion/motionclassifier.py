@@ -1,3 +1,5 @@
+""" Motion classification logic. """
+
 import collections
 import csv
 import numpy
@@ -21,15 +23,24 @@ class MotionClassifier(object):
         with open('training_data.csv') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
             for row in reader:
-                # Load all but the last column into the training_data array
-                self.training_data = numpy.vstack((self.training_data, row[0:len(row)-1]))
-                # Load the values in the last column into the training_data_classes array
-                self.training_data_classes = numpy.vstack((self.training_data_classes, row[-1].strip()))
+                # Load the numeric data into the training_data array
+                self.training_data = numpy.vstack((
+                    self.training_data,
+                    row[0:len(row)-1]
+                ))
+                # Load the values in the last column into the
+                # training_data_classes array
+                self.training_data_classes = numpy.vstack((
+                    self.training_data_classes,
+                    row[-1].strip()
+                ))
 
     def train_model(self):
+        """ Load the training data into the k-nearest neighbours model. """
         self.model = KDTree(self.training_data)
 
     def classify(self, movement_data):
+        """ Classify the motion using the model. """
         stats = numpy.fromstring(movement_data, sep=',')
         # print(stats)
         distances, nearest_neighbour_indices = self.model.query([stats], self.k)
@@ -37,4 +48,6 @@ class MotionClassifier(object):
         # Get the class labels of the k nearest neighbours
         nearest_labels = [self.training_data_classes[c][0] for c in nearest_neighbour_indices[0]]
         # print(nearest_labels)
-        print(collections.Counter(nearest_labels).most_common(1)[0][0])
+        motion_class = collections.Counter(nearest_labels).most_common(1)[0][0]
+        # print(stats, motion_class)
+        return motion_class
