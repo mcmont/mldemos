@@ -18,7 +18,7 @@ When the user clicks on the plot the model is queried and the resulting classifi
 ### `svm_rbf.py`
 This demo demonstrates a slightly more complex case in which one dataset is distinct from another, surrounding data set. These datasets are not linearly separable in two dimensions, so we can't simply plot a straight line to separate them.
 
-Instead the SVM classifier does something clever. It projects the data into an *n*-dimensional space, where *n* is the number of features that it finds in the data. A straight line in *n*-dimensional space can then be drawn between the two data sets. This line is then projected back into two dimensions, where it is no longer straight!
+Instead the SVM classifier does something clever. It projects the data into an *n*-dimensional space, where *n* is the number of features that it finds in the data. A straight line in *n*-dimensional space can then be drawn between the two data sets. This line is then projected back into two dimensions, where it no longer appears straight!
 
 As in the *lemon or banana* classification demo, the 'support vectors' upon which the model defines the decision boundary are highlighted in grey.
 
@@ -40,7 +40,6 @@ The demos do not require any command-line arguments. They can be run directly, e
 
 ## References, useful links and whatnot
 
-### Support Vector Machines
 http://scikit-learn.org/stable/modules/svm.html
 
 https://mubaris.com/2017/10/14/svm-python/
