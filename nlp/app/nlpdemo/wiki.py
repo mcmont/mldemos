@@ -1,7 +1,6 @@
-import certifi
-import unwiki
-import re
 import logging
+import re
+import unwiki
 import wikipedia
 
 
@@ -9,7 +8,8 @@ class WikipediaDownloader(object):
     """ Download a page from Wikipedia. """
 
     def __init__(self):
-        logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+        logging.basicConfig(format='%(levelname)s: %(message)s',
+            level=logging.INFO)
         wikipedia.set_lang('en')
 
     def download_page(self, searchTerm):
