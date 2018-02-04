@@ -56,6 +56,7 @@ class MotionClassifier(object):
         # Centre the window in the display, and bring the
         # window to the front
         self.centre_window(window)
+        window.title("Motion classifier")
         window.attributes("-topmost", True)
 
         # Create the classification label placeholder
