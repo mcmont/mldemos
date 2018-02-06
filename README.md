@@ -34,8 +34,12 @@ https://stackoverflow.com/questions/23794277/extract-decision-boundary-with-scik
 Implementation and Evaluation of the CenceMe
 Application](http://sensorlab.cs.dartmouth.edu/pubs/cenceme_sensys08.pdf)
 
-### Neural Networks
+### Neural Networks and Deep Learning
 [Layers in TensorFlow](https://katacoda.com/basiafusinska/scenarios/tensorflow-layers) - Sample code to build a convolutional neural network to solve the NMIST classification problem in TensorFlow, by Barbara Fukinska.
+
+[Understanding Convolutional Neural Networks for NLP](http://www.wildml.com/2015/11/understanding-convolutional-neural-networks-for-nlp/)
+
+[Adit Deshpande's blog](https://adeshpande3.github.io/adeshpande3.github.io/)
 
 ### Face API
 [Azure Face API documentation](https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236)
