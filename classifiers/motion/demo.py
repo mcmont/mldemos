@@ -1,16 +1,19 @@
 """ Motion classification demo using the k-nearest neighbours algorithm. """
-import socketserver
+from http.server import HTTPServer
+import ssl
 import sys
+
 import tkinter
+
 from motiondemo import motiondata
 from motiondemo import motionserver
 
 
 class MotionClassifier(object):
-    """ Motion classification demo. """
+    """Motion classification demo."""
 
     def __init__(self, port=8000):
-        """ Main control loop. CTRL+C stops the loop. """
+        """Main control loop. CTRL+C stops the loop."""
         # Instantiate a MotionData object that will store the motion
         # classification state. This object will be shared with the
         # server process to avoid having to use a global variable.
@@ -41,8 +44,6 @@ class MotionClassifier(object):
     def create_window(self):
         """ Creates the window that displays the classifier result. """
         window = tkinter.Tk()
-        # Hide the OS window controls
-        # window.overrideredirect(1)
 
         # Create the dark grey background
         canvas = tkinter.Canvas(
@@ -75,21 +76,21 @@ class MotionClassifier(object):
             try:
                 # Try to start the HTTP server on the chosen port,
                 # using the MotionServer class as the handler
-                httpd = socketserver.TCPServer(
-                    ('', port),
-                    lambda *args, **kwargs:
-                    motionserver.MotionServer(motion_data, *args, **kwargs)
-                )
+                httpd = HTTPServer(('', port),
+                                   lambda *args, **kwargs: motionserver.MotionServer(motion_data, *args, **kwargs))
+                httpd.socket = ssl.wrap_socket(httpd.socket,
+                                               keyfile="./key.pem",
+                                               certfile='./cert.pem', server_side=True)
 
             except OSError as error:
                 if error.args[0] != 48:
                     raise
-                print('Sorry, port %d is already in use, trying %d...' % (port, port+1))
+                print(f'Sorry, port {port} is already in use, trying {port+1}...')
                 port += 1
 
             else:
                 # Hurray, we've found an available port.
-                print('Waiting for mobile device connection on port %d...' % (port))
+                print(f'Waiting for mobile device connection on port {port}...')
                 return httpd
 
     def centre_window(self, window):

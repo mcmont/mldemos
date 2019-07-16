@@ -12,9 +12,9 @@ The demo starts an HTTP server which serves an HTML file. The user connects to t
 
 The included training data "teaches" the classifier what the accelerometer data looks like during various activities; sitting, standing, holding the device in the hand, jogging on the spot and shaking the device. Please note that this data may have different characteristics for different people. For example I tend to keep my phone in my right trouser pocket, so my phone tends to be in a certain orientation when I sit down. If you keep yours in your left pocket the orientation may differ, and you may see wrong results. (This is only a demo, deal with it... or [fork the code](https://github.com/mcmont/mldemos/tree/master/classifiers#fork-destination-box) and improve it!)
 
-The model uses a *k*-nearest neighbours search to find the closest data points from the training set. The value of *k* is set to 5 by default. The majority classification of the 5 closest training data points is displayed in a window.
+The model uses a _k_-nearest neighbours search to find the closest data points from the training set. The value of *k* is set to 5 by default. The majority classification of the 5 closest training data points is displayed in a window.
 
-*k*-nearest neighbours is somewhat unusual in machine learning because *all* of the training data is used in the model; splitting the data into training and validation sets only reduces the accuracy of the model.
+_k_-nearest neighbours is somewhat unusual in machine learning because *all* of the training data is used in the model; splitting the data into training and validation sets only reduces the accuracy of the model.
 
 ## Running the demo
 This demo is written in Python 3. Assuming this is already installed you will need to install scikit-learn and its dependencies. 
@@ -23,10 +23,15 @@ This demo is written in Python 3. Assuming this is already installed you will ne
 
 You will also need a mobile device. This demo was tested using an iPhone 6S which reports new accelerometer readings every 16.7ms.
 
-Run the HTTP server:
-```python3 demo.py OPTIONAL_PORT_NUMBER```
+Since iOS 12.3 Apple has started to prevent insecure websites from using accelerometer data from a device. HTTPS connections are able to access the data, however this no longer appears to work in Safari, even with the "Motion and Orientation Access" option enabled in the Safari settings. Google Chrome works as of iOS 12.3.1.  
 
-Then connect to the server at the specified port number using your mobile device. If no port number is specified the server will default to port 8000. If the chosen port is not available (e.g. if it is already bound to a different process) it will increment the port number and try again, repeating until an available port is found.
+To create a TLS certificate for the server, run:
+```make certs```
+
+To run the demo:
+```make run```
+
+Then connect to the server at the specified port number using your mobile device, remembering to use https. If no port number is specified the server will default to port 8000. If the chosen port is not available (e.g. if it is already bound to a different process) it will increment the port number and try again, repeating until an available port is found.
 
 ## References
 
@@ -38,3 +43,4 @@ Then connect to the server at the specified port number using your mobile device
 Implementation and Evaluation of the CenceMe
 Application](http://sensorlab.cs.dartmouth.edu/pubs/cenceme_sensys08.pdf)
 
+[Simple Python HTTP(S) Server With GET/POST Examples](https://blog.anvileight.com/posts/simple-python-http-server/)

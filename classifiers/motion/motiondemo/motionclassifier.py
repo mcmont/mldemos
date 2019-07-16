@@ -1,7 +1,7 @@
-""" Motion classification logic. """
-
+""" Motion classification logic."""
 import collections
 import csv
+
 import numpy
 from sklearn.neighbors import KDTree
 
@@ -19,7 +19,7 @@ class MotionClassifier(object):
         self.train_model()
 
     def load_training_data(self):
-        """ Load the training data and class names from the data file. """
+        """Load the training data and class names from the data file. """
         with open('training_data.csv') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
             for row in reader:
@@ -36,11 +36,11 @@ class MotionClassifier(object):
                 ))
 
     def train_model(self):
-        """ Load the training data into the k-nearest neighbours model. """
+        """Load the training data into the k-nearest neighbours model. """
         self.model = KDTree(self.training_data)
 
     def classify(self, movement_data):
-        """ Classify the motion using the model. """
+        """Classify the motion using the model. """
         stats = numpy.fromstring(movement_data, sep=',')
         # print(stats)
         distances, nearest_neighbour_indices = self.model.query([stats], self.k)
