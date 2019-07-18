@@ -6,7 +6,13 @@
 Twitter: [@monty_mcmont](https://twitter.com/monty_mcmont)
 
 ## Overview
-This demo demonstrates how to collect data and classify it in real time. 
+This demo demonstrates how to collect data from a mobile device and classify it in real time. 
+
+The accelerometer data undergoes some edge processing on the device before being transmitted to a desktop computer for classification.
+
+The device takes 25 readings from the accelerometer sensors, then calculates the mean and standard deviation. The iPhone 6S that this demo was tested with takes a reading every 16.7ms, so 25 readings = 417.5ms of data. 
+
+## How it works
 
 The demo starts an HTTP server which serves an HTML file. The user connects to the server via a mobile device with accelerometers. The embedded Javascript code acquires data from the device's accelerometers to find the magnitude of the motion in the x, y and z axes. Data is accumulated in an array until it contains 25 data samples for each axis. The device then calculates the mean and standard deviation of the data, and sends it to the server via an HTTP POST request.
 
