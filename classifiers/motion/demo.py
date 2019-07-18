@@ -1,4 +1,5 @@
 """ Motion classification demo using the k-nearest neighbours algorithm. """
+import argparse
 from http.server import HTTPServer
 import ssl
 import sys
@@ -11,25 +12,31 @@ from motiondemo import motionserver
 
 class MotionClassifier(object):
     """Motion classification demo."""
+    _window_size_px = 1000
 
-    def __init__(self, port=8000):
+    def __init__(self):
         """Main control loop. CTRL+C stops the loop."""
+        self.args = self._parse_args()
+
         # Instantiate a MotionData object that will store the motion
         # classification state. This object will be shared with the
         # server process to avoid having to use a global variable.
         motion_data = motiondata.MotionData()
         # Start the HTTP server on an available port
-        httpd = self.start_server(port, motion_data)
-        # Configure the window
-        window, canvas, message = self.create_window()
+        httpd = self.start_server(self.args.port, motion_data)
+        if not self.args.train:
+            # Configure the window
+            window, canvas, message = self.create_window()
 
         while True:
             try:
                 # Block until we receive HTTP POST data from the device
                 httpd.handle_request()
-                # Update the message text
-                canvas.itemconfigure(message, text=motion_data.motion_class)
-                window.update()
+
+                if not self.args.train:
+                    # Update the message text
+                    canvas.itemconfigure(message, text=motion_data.motion_class)
+                    window.update()
 
             except (Exception, KeyboardInterrupt):
                 print('\nCaught CTRL+C or the window was closed. Exiting.')
@@ -41,16 +48,23 @@ class MotionClassifier(object):
                     pass
                 break
 
+    @staticmethod
+    def _parse_args(args=sys.argv[1:]) -> argparse.Namespace:
+        parser = argparse.ArgumentParser()
+        parser.add_argument("--port", help="Port number", type=int, required=True)
+        parser.add_argument("--train", help="Run in training mode", action='store_true')
+        return parser.parse_args(args)
+
     def create_window(self):
-        """ Creates the window that displays the classifier result. """
+        """Creates the window that displays the classifier result. """
         window = tkinter.Tk()
 
         # Create the dark grey background
         canvas = tkinter.Canvas(
             window,
             background="#333F48",
-            width=600,
-            height=600
+            width=self._window_size_px,
+            height=self._window_size_px
         )
         canvas.pack(side="top", fill="both", expand=True)
 
@@ -63,8 +77,8 @@ class MotionClassifier(object):
         # Create the classification label placeholder
         label_text = tkinter.StringVar()
         message = canvas.create_text(
-            300, 300,
-            font='Avenir 52 bold',
+            int(self._window_size_px/2), int(self._window_size_px/2),
+            font='Avenir 72 bold',
             fill="#E35205",
             text=label_text.get()
         )
@@ -77,7 +91,7 @@ class MotionClassifier(object):
                 # Try to start the HTTP server on the chosen port,
                 # using the MotionServer class as the handler
                 httpd = HTTPServer(('', port),
-                                   lambda *args, **kwargs: motionserver.MotionServer(motion_data, *args, **kwargs))
+                                   lambda *args, **kwargs: motionserver.MotionServer(motion_data, self.args.train, *args, **kwargs))
                 httpd.socket = ssl.wrap_socket(httpd.socket,
                                                keyfile="./key.pem",
                                                certfile='./cert.pem', server_side=True)
@@ -105,7 +119,4 @@ class MotionClassifier(object):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        MotionClassifier(port=int(sys.argv[1]))
-    else:
-        MotionClassifier()
+    MotionClassifier()

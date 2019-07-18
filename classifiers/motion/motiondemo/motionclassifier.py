@@ -1,6 +1,7 @@
 """ Motion classification logic."""
 import collections
 import csv
+import os
 
 import numpy
 from sklearn.neighbors import KDTree
@@ -12,15 +13,19 @@ class MotionClassifier(object):
     training_data = numpy.empty(6)
     training_data_classes = numpy.empty(1)
     k = 5
+    training_data_file_path = None
 
     def __init__(self, k=5):
         self.k = k
+        self.training_data_file_path = os.getenv("TRAINING_DATA", None)
+        if not self.training_data_file_path:
+            raise RuntimeError("No training data file was specified. Set the path using the TRAINING_DATA environment variable.")
         self.load_training_data()
         self.train_model()
 
     def load_training_data(self):
         """Load the training data and class names from the data file. """
-        with open('training_data.csv') as csvfile:
+        with open(self.training_data_file_path) as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
             for row in reader:
                 # Load the numeric data into the training_data array

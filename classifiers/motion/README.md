@@ -1,9 +1,11 @@
 # Motion classification demo
-**Dr. Chris Empson, Infinity Works Ltd.**
+**Dr. Chris Empson, [Infinity Works](https://www.infinityworks.com/)**
 
 [chris.empson@infinityworks.com](mailto:chris.empson@infinityworks.com)
 
 Twitter: [@monty_mcmont](https://twitter.com/monty_mcmont)
+
+LinkedIn: [Chris Empson](https://www.linkedin.com/in/chris-empson-45881019/)
 
 ## Overview
 This demo demonstrates how to collect data from a mobile device and classify it in real time. 
@@ -27,7 +29,7 @@ This demo is written in Python 3. Assuming this is already installed you will ne
 
 ```pip3 install numpy && pip3 install scipy && pip3 install scikit-learn```
 
-You will also need a mobile device. This demo was tested using an iPhone 6S which reports new accelerometer readings every 16.7ms.
+You will also need a mobile device. This demo was tested using an iPhone 6S and an iPhone 8 Plus which produce new accelerometer readings every 16.7ms.
 
 Since iOS 12.3 Apple has started to prevent insecure websites from using accelerometer data from a device. HTTPS connections are able to access the data, however this no longer appears to work in Safari, even with the "Motion and Orientation Access" option enabled in the Safari settings. Google Chrome works as of iOS 12.3.1.  
 
@@ -35,11 +37,23 @@ To create a TLS certificate for the server, run:
 ```make certs```
 
 To run the demo:
-```make run```
+```make run-iphone```
 
-Then connect to the server at the specified port number using your mobile device, remembering to use https. If no port number is specified the server will default to port 8000. If the chosen port is not available (e.g. if it is already bound to a different process) it will increment the port number and try again, repeating until an available port is found.
+Then, using your mobile device, connect to the server over `https://` using the displayed port number.
 
-## References
+## Generating new training data
+If you want to teach the classifier a new class, or if you want to generate training data for a non-iPhone device, you can run the program in training mode by running:
+
+```make train```
+
+The program will print data to the console that can be copied & pasted into a csv file of training data. You'll just need to add a class to the end of each line.
+
+Ensure that there are no empty lines at the end of the file, or numpy will raise ValueError exceptions like:
+
+`ValueError: all the input array dimensions except for the concatenation axis must match exactly`
+ 
+
+## Related reading & examples
 
 [Activity Recognition with Smartphone Sensors](http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6838194)
 
@@ -50,3 +64,5 @@ Implementation and Evaluation of the CenceMe
 Application](http://sensorlab.cs.dartmouth.edu/pubs/cenceme_sensys08.pdf)
 
 [Simple Python HTTP(S) Server With GET/POST Examples](https://blog.anvileight.com/posts/simple-python-http-server/)
+
+[Alberto Sarullo's Accelerometer Javascript Test](http://www.albertosarullo.com/demos/accelerometer/)
