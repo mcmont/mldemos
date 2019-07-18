@@ -8,11 +8,13 @@ Twitter: [@monty_mcmont](https://twitter.com/monty_mcmont)
 LinkedIn: [Chris Empson](https://www.linkedin.com/in/chris-empson-45881019/)
 
 ## Overview
-This demo demonstrates how to collect data from a mobile device and classify it in real time. 
+This demo demonstrates how to collect accelerometer data from a mobile device and use it to classify what the user is doing, in real time. 
 
-The accelerometer data undergoes some edge processing on the device before being transmitted to a desktop computer for classification.
+The device does some edge processing on the data to reduce the number of readings that need to be transmitted to a desktop computer for classification.
 
-The device takes 25 readings from the accelerometer sensors, then calculates the mean and standard deviation. The iPhone 6S that this demo was tested with takes a reading every 16.7ms, so 25 readings = 417.5ms of data. 
+The device takes 25 readings from the accelerometer sensors, then calculates the mean and standard deviation. The iPhones that this demo was tested with take accelerometer readings every 16.7ms, so 25 readings = 417.5ms of data. 
+
+Training data is included for sitting, standing, waving, walking, jogging on the spot, vigorous shaking, and holding the device in the hand.
 
 ## How it works
 
