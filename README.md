@@ -3,18 +3,19 @@
 
 [chris.empson@infinityworks.com](mailto:chris.empson@infinityworks.com)
 
-Twitter: [@monty_mcmont](https://twitter.com/monty_mcmont)
+LinkedIn: <https://www.linkedin.com/in/chris-empson-45881019/>
 
 ## Introduction
-These demos will feature in an upcoming beginner-level talk about Artificial Intelligence and Machine Learning.
+I created these demos for various artificial intelligence and machine learning talks that I've given at Infinity Works.
 
-The demos are divided into:
+The demos are:
 
-*  Classifiers (binary, multiclass motion detection via *k*-nearest neighbours, radial basis function)
-*  Natural language processing (NLP)
-*  Image recognition via Azure Face API
+* Classifiers (binary, multiclass motion detection via *k*-nearest neighbours, radial basis function)
+* Natural language processing (NLP)
+* Image recognition via Azure Face API
+* Human Pie Divider - dividing people into groups based on their answers to a questionnaire
 
-Each demo has its own README.md file that contains information about how to install the dependencies for, and run, the demo.
+Each demo has its own README.md file to explain how to install the dependencies for, and run, the demo.
 
 ## References, useful links and whatnot
 

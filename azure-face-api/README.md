@@ -3,7 +3,7 @@
 
 [chris.empson@infinityworks.com](mailto:chris.empson@infinityworks.com)
 
-Twitter: [@monty_mcmont](https://twitter.com/monty_mcmont)
+LinkedIn: <https://www.linkedin.com/in/chris-empson-45881019/>
 
 ## Overview
 This demo visualises the feature information returned by Microsoft Azure's Face API.

@@ -3,7 +3,7 @@
 
 [chris.empson@infinityworks.com](mailto:chris.empson@infinityworks.com)
 
-Twitter: [@monty_mcmont](https://twitter.com/monty_mcmont)
+LinkedIn: <https://www.linkedin.com/in/chris-empson-45881019/>
 
 ## Overview
 This demo demonstrates natural language processing by identifying the entities (people, places etc) that feature in a selected Wikipedia page.
